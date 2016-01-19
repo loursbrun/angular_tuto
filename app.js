@@ -34,6 +34,11 @@ angular.module("Webmail", ["ngSanitize"])
         $scope.dossierCourant = null;
         $scope.emailSelectionne = null;
 
+        $scope.versEmail = function(dossier, email) {
+            $location.path("/" + dossier.value + "/" + email.id);
+        }
+
+
         $scope.selectionDossier = function(dossier){
             $scope.dossierCourant = dossier;
             $scope.emailSelectionne = null;
@@ -47,7 +52,23 @@ angular.module("Webmail", ["ngSanitize"])
         $scope.$watch(function() {
             return $location.path();
         }, function(newPath) {
-            console.log(newPath);
+            var tabPath = newPath.split("/");
+            if (tabPath.length > 1) {
+                var valDossier = tabPath[1];
+                $scope.dossiers.forEach(function(item) {
+                    if (item.value == valDossier) {
+                        $scope.selectionDossier(item);
+                    }
+                });
+                if (tabPath.length > 2) {
+                    var idMail = tabPath[2];
+                    $scope.dossierCourant.emails.forEach(function(item) {
+                        if (item.id == idMail) {
+                            $scope.selectionEmail(item);
+                        }
+                    });
+                }
+            }
         });
 
 

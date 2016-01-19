@@ -23,7 +23,7 @@
 
     <ul class="nav nav-pills spacer">
        <li ng-repeat="dossier in dossiers"
-               ng-class="{ active: dossier == dossierCourant }"><a ng-click="selectionDossier(dossier)">{{dossier.label}}</a></li>
+               ng-class="{ active: dossier == dossierCourant }"><a href="#{{dossier.value}}">{{dossier.label}}</a></li>
     </ul>
 
 
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="email in dossierCourant.emails" class="clickable" ng-click="selectionEmail(email)">
+            <tr ng-repeat="email in dossierCourant.emails" class="clickable" ng-click="versEmail(dossierCourant, email)">
                     <td>{{email.form}}</td>
                     <td>{{email.to}}</td>
                     <td>{{email.subject}}</td>
