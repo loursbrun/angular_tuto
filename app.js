@@ -2,9 +2,9 @@
  * Created by fabienbrun on 19/01/16.
  */
 
-angular.module("Webmail", [])
+angular.module("Webmail", ["ngSanitize"])
 
-.controller("WebmailCtrl", function($scope) {
+.controller("WebmailCtrl", function($scope, $location) {
 
 
         $scope.dossiers = [
@@ -36,10 +36,19 @@ angular.module("Webmail", [])
 
         $scope.selectionDossier = function(dossier){
             $scope.dossierCourant = dossier;
+            $scope.emailSelectionne = null;
         }
         $scope.selectionEmail = function(email){
             $scope.emailSelectionne = email;
         }
+
+        $location.path();
+
+        $scope.$watch(function() {
+            return $location.path();
+        }, function(newPath) {
+            console.log(newPath);
+        });
 
 
     })
