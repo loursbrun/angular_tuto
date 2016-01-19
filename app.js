@@ -32,9 +32,13 @@ angular.module("Webmail", [])
 
 
         $scope.dossierCourant = null;
+        $scope.emailSelectionne = null;
 
         $scope.selectionDossier = function(dossier){
             $scope.dossierCourant = dossier;
+        }
+        $scope.selectionEmail = function(email){
+            $scope.emailSelectionne = email;
         }
 
 

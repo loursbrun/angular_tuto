@@ -36,32 +36,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="clickable">
-                <td>Toto</td>
-                <td>Rudy</td>
-                <td>Bonjour</td>
-                <td>22/03/2014</td>
-            </tr>
-        </tbody>
-        <tbody>
-            <tr class="clickable">
-                <td>Tutu</td>
-                <td>Rudy</td>
-                <td>Ca va ?</td>
-                <td>22/03/2014</td>
+            <tr ng-repeat="email in dossierCourant.emails" class="clickable" ng-click="selectionEmail(email)">
+                <td>{{email.form}}</td>
+                <td>{{email.to}}</td>
+                <td>{{email.subject}}</td>
+                <td>{{email.date}}</td>
             </tr>
         </tbody>
     </table>
 
 
-    <div class="alert alert-info">Le dossier contient {{nbMails}} Mails </div>
+    <div class="alert alert-info">Le dossier contient {{dossierCourant.emails.length}} Mails </div>
 
-    <div>
+    <div ng-show="emailSelectionne != null">
         <div class="well">
-            <h1>Bonjour</h1>
-            <p><label>De:</label><span>Toto</span></p>
-            <p><label>&Agrave; :</label><span>Rudy</span></p>
-            <p><label>Date :</label><span>22/03/2014</span></p>
+            <h1>{{emailSelectionne.subject}}</h1>
+            <p><label>De:</label><span>{{emailSelectionne.from}}</span></p>
+            <p><label>&Agrave; :</label><span>{{emailSelectionne.to}}</span></p>
+            <p><label>Date :</label><span>{{emailSelectionne.date}}</span></p>
 
             <p>Salut ça va ? </p>
         </div>
