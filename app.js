@@ -4,7 +4,7 @@
 
 angular.module("Webmail", ["ngSanitize"])
 
-.controller("WebmailCtrl", function($scope, $location) {
+.controller("WebmailCtrl", function($scope, $location, $filter) {
 
 
         $scope.dossiers = [
@@ -76,6 +76,8 @@ angular.module("Webmail", ["ngSanitize"])
         }
 
 
+
+
         $location.path();
 
         $scope.$watch(function() {
@@ -102,3 +104,13 @@ angular.module("Webmail", ["ngSanitize"])
 
 
     })
+
+.filter("surbrillanceRecherche",function() {
+        return function(input, recherche){
+            if(recherche) {
+                return input.replace(new RegExp("(" + recherche + ")", "gi"), "<span class='surbrillanceRecherche'>$1</span>");
+            }
+            return input ;
+        }
+
+});

@@ -68,16 +68,16 @@
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="email in dossierCourant.emails | filter:recherche | orderBy:champTri:triDescendant" class="clickable" ng-click="versEmail(dossierCourant, email)">
-                    <td>{{email.from}}</td>
-                    <td>{{email.to}}</td>
-                    <td>{{email.subject}}</td>
+            <tr ng-repeat="email in emailFiltres = (dossierCourant.emails | filter:recherche) | orderBy:champTri:triDescendant" class="clickable" ng-click="versEmail(dossierCourant, email)">
+                    <td ng-bind-html="email.from | surbrillanceRecherche:recherche"></td>
+                    <td ng-bind-html="email.to | surbrillanceRecherche:recherche"></td>
+                    <td ng-bind-html="email.subject | surbrillanceRecherche:recherche"></td>
                     <td>{{email.date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="alert alert-info">Le dossier contient {{dossierCourant.emails.length}} Mails </div>
+        <div class="alert alert-info">Le dossier contient {{emailFiltres.length}} Mails </div>
     </div>
 
     <div ng-show="emailSelectionne != null" class="spacer">
@@ -85,7 +85,7 @@
             <h1>{{emailSelectionne.subject}}</h1>
             <p><label>De:</label><span>{{emailSelectionne.from}}</span></p>
             <p><label>&Agrave; :</label><span>{{emailSelectionne.to}}</span></p>
-            <p><label>Date :</label><span>{{emailSelectionne.date}}</span></p>
+            <p><label>Date :</label><span>{{emailSelectionne.date | date:'dd/MM/yyyy HH:mm'}}</span></p>
 
             <p ng-bind-html="emailSelectionne.content"></p>
         </div>
