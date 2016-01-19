@@ -32,16 +32,18 @@
                 <tr>
                     <th>
                        <a ng-click="triParExpediteur()"> De </a>
+                        <span class="hSpacer" ng-class="{ glyphicon: champTri == 'from', 'glyphicon-chevron-up': champTri == 'from' && !triDescendant , 'glyphicon-chevron-down': champTri == 'from' && triDescendant}"></span>
                     </th>
                     <th>
                         <a ng-click="triParDestinataire()">  &Agrave; </a>
+                        <span class="hSpacer" ng-class="{ glyphicon: champTri == 'to', 'glyphicon-chevron-up': champTri == 'to' && !triDescendant , 'glyphicon-chevron-down': champTri == 'to' && triDescendant}"></span>
                     </th>
                     <th>Objet</th>
                     <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="email in dossierCourant.emails | orderBy:champTri" class="clickable" ng-click="versEmail(dossierCourant, email)">
+            <tr ng-repeat="email in dossierCourant.emails | orderBy:champTri:triDescendant" class="clickable" ng-click="versEmail(dossierCourant, email)">
                     <td>{{email.from}}</td>
                     <td>{{email.to}}</td>
                     <td>{{email.subject}}</td>

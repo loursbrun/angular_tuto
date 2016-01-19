@@ -50,11 +50,23 @@ angular.module("Webmail", ["ngSanitize"])
 
         // tri
         $scope.champTri = null;
+        $scope.triDescendant = false ;
         $scope.triParExpediteur = function() {
-            $scope.champTri ="from" ;
+            if($scope.champTri == "from"){
+                $scope.triDescendant = !$scope.triDescendant;
+            } else {
+                $scope.champTri ="from" ;
+                $scope.triDescendant = false;
+            }
+
         }
         $scope.triParDestinataire = function() {
-            $scope.champTri ="to" ;
+            if($scope.champTri == "to"){
+                $scope.triDescendant = !$scope.triDescendant;
+            } else {
+                $scope.champTri ="to" ;
+                $scope.triDescendant = false;
+            }
         }
 
 
