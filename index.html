@@ -15,8 +15,7 @@
 
 
 </head>
-<body ng-app="Webmail" ng-controller="WebmailCtrl">
-
+<body ng-app="Webmail" ng-controller="WebmailCtrl"  >
 
 
 <div class="container">
@@ -31,15 +30,19 @@
         <table class="table table-striped table-hover spacer">
             <thead>
                 <tr>
-                    <th>De</th>
-                    <th>&Agrave;</th>
+                    <th>
+                       <a ng-click="triParExpediteur()"> De </a>
+                    </th>
+                    <th>
+                        <a ng-click="triParDestinataire()">  &Agrave; </a>
+                    </th>
                     <th>Objet</th>
                     <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="email in dossierCourant.emails" class="clickable" ng-click="versEmail(dossierCourant, email)">
-                    <td>{{email.form}}</td>
+            <tr ng-repeat="email in dossierCourant.emails | orderBy:champTri" class="clickable" ng-click="versEmail(dossierCourant, email)">
+                    <td>{{email.from}}</td>
                     <td>{{email.to}}</td>
                     <td>{{email.subject}}</td>
                     <td>{{email.date}}</td>

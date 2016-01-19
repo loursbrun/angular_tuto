@@ -47,6 +47,18 @@ angular.module("Webmail", ["ngSanitize"])
             $scope.emailSelectionne = email;
         }
 
+
+        // tri
+        $scope.champTri = null;
+        $scope.triParExpediteur = function() {
+            $scope.champTri ="from" ;
+        }
+        $scope.triParDestinataire = function() {
+            $scope.champTri ="to" ;
+        }
+
+
+
         $location.path();
 
         $scope.$watch(function() {
