@@ -29,6 +29,8 @@ angular.module("Webmail", ["ngSanitize"])
             ] }
         ];
 
+        $scope.idProchainMail = 12;
+
 
         $scope.dossierCourant = null;
         $scope.emailSelectionne = null;
@@ -87,6 +89,17 @@ angular.module("Webmail", ["ngSanitize"])
                 from: "Rudy",
                 date: new Date()
             }
+        }
+
+        $scope.envoiMail = function() {
+            $scope.dossiers.forEach(function(item){
+                if(item.value == "ENVOYES" ){
+                    $scope.nouveauMail.id = $scope.idProchainMail ++;
+                    item.emails.push($scope.nouveauMail);
+                    $scope.nouveauMail = null;
+                    $location.Path('/');
+                }
+            })
         }
 
 
