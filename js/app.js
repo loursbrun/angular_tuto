@@ -77,7 +77,6 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
         $scope.recherche = null;
         $scope.razRecherche = function(){
             $scope.recherche = null;
-            console.log("cocococococ");
         }
 
 
@@ -88,10 +87,15 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
             $scope.nouveauMail ={
                 from: "Rudy",
                 date: new Date()
-            }
+            };
+            $scope.formNouveauMail.$setPristine();
+            document.getElementById("formNouveauMail").reset();
         }
 
         $scope.envoiMail = function() {
+
+            if($scope.formNouveauMail.$valid){
+
             $scope.dossiers.forEach(function(item){
                 if(item.value == "ENVOYES" ){
                     $scope.nouveauMail.id = $scope.idProchainMail ++;
@@ -100,6 +104,9 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
                     $location.Path('/');
                 }
             })
+            } else {
+               alert("Merci de vérifier votre saisie.");
+            }
         }
 
         $scope.optionsTinyMce =  {

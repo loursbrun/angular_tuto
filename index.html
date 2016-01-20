@@ -98,10 +98,10 @@
     </div>
 
     <div class="spacer" ng-show="nouveauMail != null">
-        <form name="formNouveauMail">
+        <form id="formNouveauMail" name="formNouveauMail">
             <div class="input-group">
                 <span class="input-group-addon labelChampNouveauMail">&Agrave;</span>
-                <input type="text" class="form-control" ng-model="nouveauMail.to">
+                <input type="email" class="form-control" ng-model="nouveauMail.to" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon labelChampNouveauMail">Objet</span>
@@ -118,12 +118,13 @@
             <div class="spacer text-center">
                 <button ng-click="envoiMail()"  class="btn btn-success">Envoyer l'email</button>
                 <span class="hSpacer"></span>
-                <button class="btn btn-warning" ng-click="razMail()">Effacer la saisie</button>
+                <button ng-disabled="formNouveauMail.$pristine" class="btn btn-warning" ng-click="razMail()">Effacer la saisie</button>
             </div>
         </form>
     </div>
 
 </div>
+
 
 
 
