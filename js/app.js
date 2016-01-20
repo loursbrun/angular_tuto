@@ -41,6 +41,9 @@ angular.module("Webmail", ["ngSanitize"])
         $scope.selectionDossier = function(dossier){
             $scope.dossierCourant = dossier;
             $scope.emailSelectionne = null;
+            if(dossier) {
+                $scope.nouveauMail = null;
+            }
         }
         $scope.selectionEmail = function(email){
             $scope.emailSelectionne = email;
@@ -76,6 +79,15 @@ angular.module("Webmail", ["ngSanitize"])
         }
 
 
+        // création d'email
+        $scope.nouveauMail = null;
+
+        $scope.razMail = function() {
+            $scope.nouveauMail ={
+                from: "Rudy",
+                date: new Date()
+            }
+        }
 
 
         $location.path();
@@ -85,19 +97,24 @@ angular.module("Webmail", ["ngSanitize"])
         }, function(newPath) {
             var tabPath = newPath.split("/");
             if (tabPath.length > 1) {
-                var valDossier = tabPath[1];
-                $scope.dossiers.forEach(function(item) {
-                    if (item.value == valDossier) {
-                        $scope.selectionDossier(item);
-                    }
-                });
-                if (tabPath.length > 2) {
-                    var idMail = tabPath[2];
-                    $scope.dossierCourant.emails.forEach(function(item) {
-                        if (item.id == idMail) {
-                            $scope.selectionEmail(item);
+                if (tabPath[1] == "nouveauMail") {
+                    $scope.razMail();
+                    $scope.selectionDossier(null);
+                } else {
+                    var valDossier = tabPath[1];
+                    $scope.dossiers.forEach(function (item) {
+                        if (item.value == valDossier) {
+                            $scope.selectionDossier(item);
                         }
                     });
+                    if (tabPath.length > 2) {
+                        var idMail = tabPath[2];
+                        $scope.dossierCourant.emails.forEach(function (item) {
+                            if (item.id == idMail) {
+                                $scope.selectionEmail(item);
+                            }
+                        });
+                    }
                 }
             }
         });
