@@ -14,7 +14,7 @@ gulp.task('css', function()
     return gulp.src('css/sass/*.scss')    // Prend en entrée les fichiers *.scss
         .pipe(sass())                      // Compile les fichiers
         .pipe(minifyCss())                 // Minifie le CSS qui a été généré
-        .pipe(gulp.dest('style/'));  // Sauvegarde le tout dans /src/style
+        .pipe(gulp.dest('css/'));  // Sauvegarde le tout dans /src/style
 });
 
 
