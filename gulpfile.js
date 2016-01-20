@@ -11,7 +11,7 @@ var gulp      = require('gulp'),
 // SCSS TASK
 gulp.task('css', function()
 {
-    return gulp.src('style/sass/*.scss')    // Prend en entrée les fichiers *.scss
+    return gulp.src('css/sass/*.scss')    // Prend en entrée les fichiers *.scss
         .pipe(sass())                      // Compile les fichiers
         .pipe(minifyCss())                 // Minifie le CSS qui a été généré
         .pipe(gulp.dest('style/'));  // Sauvegarde le tout dans /src/style
@@ -21,7 +21,7 @@ gulp.task('css', function()
 // WATCH TASK
 gulp.task('watch', function()
 {
-    gulp.watch('style/sass/*.scss', ['css']);
+    gulp.watch('css/sass/*.scss', ['css']);
 });
 
 gulp.task('default', ['watch']);
