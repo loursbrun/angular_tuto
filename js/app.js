@@ -102,6 +102,14 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
             })
         }
 
+        $scope.optionsTinyMce =  {
+
+            language: "fr_FR",
+            statusbar: false,
+            menubar: false
+
+        };
+
 
         $location.path();
 
