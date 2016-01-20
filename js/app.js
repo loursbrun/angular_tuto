@@ -2,7 +2,7 @@
  * Created by fabienbrun on 19/01/16.
  */
 
-angular.module("Webmail", ["ngSanitize"])
+angular.module("Webmail", ["ngSanitize","ui.tinymce"])
 
 .controller("WebmailCtrl", function($scope, $location, $filter) {
 
