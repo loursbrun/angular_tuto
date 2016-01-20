@@ -88,13 +88,28 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
                 from: "Rudy",
                 date: new Date()
             };
+            if (tinyMCE.activeEditor) {
+                tinyMCE.activeEditor.setContent("");
+            }
             $scope.formNouveauMail.$setPristine();
-            document.getElementById("formNouveauMail").reset();
         }
 
         $scope.envoiMail = function() {
 
-            if($scope.formNouveauMail.$valid){
+
+            var regExpValidEmail = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", "gi");
+
+            if (!$scope.nouveauMail.to || !$scope.nouveauMail.to.match(regExpValidEmail)) {
+                window.alert("Erreur\n\nMerci de vérifier l'adresse e-mail saisie.");
+                return;
+            }
+
+            if (!$scope.nouveauMail.subject) {
+                if (!window.confirm("Confirmation\n\nÊtes-vous certain de vouloir envoyer un mail sans objet ?")) {
+                    return;
+                }
+            }
+
 
             $scope.dossiers.forEach(function(item){
                 if(item.value == "ENVOYES" ){
@@ -104,9 +119,7 @@ angular.module("Webmail", ["ngSanitize","ui.tinymce"])
                     $location.Path('/');
                 }
             })
-            } else {
-               alert("Merci de vérifier votre saisie.");
-            }
+
         }
 
         $scope.optionsTinyMce =  {
