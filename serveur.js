@@ -1,36 +1,50 @@
-/**
- * Created by fabienbrun on 21/01/16.
- */
-// module HTTP intégré à NodeJS : appeler la méthode require qui prend en paratres (le nom du module ou l'emplacement )
-//    De manière synchrone on vient charger le module HTTP
+
 var http = require("http");
-// On définie une variable du PORT sur lequel le serveur va ecouter
+var fs = require("fs");
 var PORT = 8080;
 
-// Dans le module HTTP , on a une méthode "createServer" qui prend en paramètre une fonction (le fameu Call back)
-// Cette fonction prend en parametres req et res , la requette envoyé par le client et la reponse renvoyée
-// Une fois que le serveur est lancé il faut déclencher l'écoute en appelant la méthode listen
-// on passe en paramètre le port d'écoute
+
+var envoieFichier = function(res, path, mineType ) {
+    res.writeHead(200, {"Content-type":  mineType});
+
+    var flux = fs.createReadStream(path, {
+        flags: "r",
+        autoClose: "true"
+    });
+
+   // flux.on("data", function (chunk){
+   //     res.write(chunk);
+   // })
+   // flux.on("end", function () {
+   //     res.end();
+   // })
+
+
+    // Flux Pipe
+    flux.pipe(res);
+
+
+}
+
+
 
 http.createServer(function(req, res) {
-    // Reponses au client / la méthode end indique l'on a fini d'écrire la réponse
-   // On peut avant d'écrire la réponse , venir écrire les headers ainsi que le code de réponse HTTP 200=tout va bien
-    console.log(req.url);
-    console.log(req.method);
-    console.log(req.headers);
-
-    // RegExp
-    var tabMatch = new RegExp("^/hello/(.*)/?$","gi").exec(req.url);
 
 
-    if(tabMatch) {
-        res.writeHead(200,{ "Content-Type" : "text/html" });
-        res.end("<h1>Hello</h1><h2>" + tabMatch[1] + "</h2>");
-    } else {
-        res.writeHead(200,{ "Content-Type" : "text/html" });
-        res.end("<h1>Hello</h1><h2> World </h2>");
+
+    if(req.url == "/") {
+        res.writeHead(301, {"Location": "index.html"});
+        res.end();
     }
+    else if(req.url == "/index.html") {
+        envoieFichier(res, __dirname + "/index.html", "text/html");
+    } else if (req.url == "/style/style.css") {
+        envoieFichier(res, __dirname + "/style/style.css", "text/css");
+    } else {
+        res.writeHead(404, {"Content-Type": "text/html"});
+        res.end("<h1>Page introuvable</h1>");
 
+    }
 
 }).listen(PORT);
 
