@@ -1,52 +1,89 @@
 
 var http = require("http");
 var fs = require("fs");
+
+var mime = require("mime"); // installer le module mime depuis la console à la racine du projet , avec "npm install mime"
+
+var connect = require("connect"); // installer le module connect depuis la console à la racine du projet , avec "npm install connect"
+
+var serveStatic = require("serveStatic"); // Middlewere sous forme de module static  connect serveStatic  : "npm install serve-static"
+
 var PORT = 8080;
 
 
-var envoieFichier = function(res, path, mineType ) {
-    res.writeHead(200, {"Content-type":  mineType});
+var envoieFichier = function(res, url ) {
+    console.log("envoie fichier :" + url);
 
-    var flux = fs.createReadStream(path, {
-        flags: "r",
-        autoClose: "true"
-    });
+    var path = __dirname + "/" + url;
+    fs.stat(path, function(err, stats){
+        if(!err && stats.isFile() ) {
 
-   // flux.on("data", function (chunk){
-   //     res.write(chunk);
-   // })
-   // flux.on("end", function () {
-   //     res.end();
-   // })
+            var flux = fs.createReadStream(path, {
+                   flags: "r",
+                    autoClose: true
+                });
 
+            var typeMime = mime.lookup(path);
 
-    // Flux Pipe
-    flux.pipe(res);
+            res.writeHead(200, {"Content-Type": typeMime})
+            flux.pipe(res);
+        } else {
+            envoie404(res);
+        }
+    })
 
 
 }
 
+var envoie404 = function(res) {
+    res.writeHead(404, {"Content-Type": "text/html"});
+    res.end("<h1>Page introuvable</h1>");
+}
 
 
-http.createServer(function(req, res) {
+var app = connect();
 
 
+
+app.use(function(req,res, next){
+    if(req.url == "/") {
+        res.writeHead(301, {"Location": "index.html"});
+        res.end();
+    } else {
+     next();
+    }
+});
+
+
+app.use(function(req,res){
+        envoieFichier(res,req.url);
+});
+
+
+
+
+
+http.createServer(app).listen(PORT);
+
+
+
+
+
+
+
+/*http.createServer(function(req, res) {
 
     if(req.url == "/") {
         res.writeHead(301, {"Location": "index.html"});
         res.end();
     }
-    else if(req.url == "/index.html") {
-        envoieFichier(res, __dirname + "/index.html", "text/html");
-    } else if (req.url == "/style/style.css") {
-        envoieFichier(res, __dirname + "/style/style.css", "text/css");
-    } else {
-        res.writeHead(404, {"Content-Type": "text/html"});
-        res.end("<h1>Page introuvable</h1>");
-
+    else  {
+        envoieFichier(res,req.url);
     }
 
-}).listen(PORT);
+
+
+}).listen(PORT); */
 
 console.log("Serveur démaré sur le port :" + PORT);
 
