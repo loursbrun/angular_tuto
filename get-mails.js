@@ -1,6 +1,3 @@
-/**
- * Created by fabienbrun on 22/01/16.
- */
 require('useful-date');
 require('useful-date/locale/en-US.js');
 
