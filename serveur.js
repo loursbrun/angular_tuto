@@ -5,6 +5,8 @@ var fs = require("fs");
 var mime = require("mime"); // installer le module mime depuis la console à la racine du projet , avec "npm install mime"
 var express = require("express"); // installer le module connect depuis la console à la racine du projet , avec "npm install connect"
 
+var serviceMails = require(__dirname + "/get-mails.js");
+
 // midldlewares
 var logger = require('morgan');
 var favicon = require('serve-favicon');
@@ -14,6 +16,8 @@ var bodyParser = require("body-parser");
 var serveStatic = require("serve-static"); // Middlewere sous forme de module static  connect serveStatic  : "npm install serve-static"
 
 var PORT = 8080;
+
+serviceMails.genererMails();
 
 var app = express();
 
@@ -29,17 +33,14 @@ var api = express();
 
 // Récupérer la liste des dossiers
 // GET /api/dossiers
-api.get("/dossiers", function(req, res) {
-    res.send([
-        { value: "RECEPTION", label: 'Boite de reception'},
-        { value: "ARCHIVES", label: 'Archives'},
-        { value: "ENVOYES", label: 'Envoyés'},
-        { value: "SPAM", label: 'Courrier indésirable'}
-    ]);
-});
+api.get("/dossiers", serviceMails.getDossiers);
 
 // Récupérer un dossier
 // GET /api/dossiers/idDossier
+
+
+
+
 api.get("/dossiers/:idDossier", function(req, res) {
     res.send([
         { id: 1, from: "Albator", to: "Rudy", subject: "Je reviens", date: new Date(2014, 2, 20, 15, 30), content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id ligula ac sem fringilla mattis. Nullam sodales mi vel semper volutpat. Phasellus lorem leo, luctus a lectus id, posuere aliquet orci. Praesent sit amet ipsum porttitor, tempus odio vel, bibendum mauris. Etiam magna lorem, rhoncus eget euismod ac, lobortis quis." },
