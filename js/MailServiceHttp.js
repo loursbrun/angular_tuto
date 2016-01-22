@@ -8,7 +8,7 @@ angular.module("MailServiceHttp", [])
         var URL_API = "http://localhost:8080/api/";
 
         return {
-            getDossiers:function(){  // renvoie un tableau
+            getDossiers:function(){  // renvoit un tableau
                 var promesse = $http.get(URL_API + "dossiers");
                 var resultat = [];
 
@@ -20,7 +20,7 @@ angular.module("MailServiceHttp", [])
 
                 return resultat;
             },
-            getDossier:function(valDossier){  // rencoie un object
+            getDossier:function(valDossier){  // renvoit un object
                 var promesse = $http.get(URL_API + "dossiers/" + valDossier);
                 var resultat = {};
 
@@ -33,10 +33,25 @@ angular.module("MailServiceHttp", [])
                 return resultat;
 
             },
-            getMail:function(valDossier, idMail){    // renvoie un objet
+            getMail: function(valDossier, idMail) { // renvoie un objet
+                var promesse = $http.get(URL_API + "dossiers/" + valDossier + "/" + idMail);
+                var resultat = {};
 
+                promesse.then(function(reponse) {
+                    angular.extend(resultat, reponse.data);
+                }, function(erreur) {
+                    alert("Erreur " + erreur.status + " dans la récupération d'un mail : " + erreur.data);
+                });
+
+                return resultat;
             },
             envoiMail:function(mail){     // ne renvoie rien
+                var promesse = $http.post(URL_API + "envoi", mail);
+
+                promesse.then(function(reponse){}, function(erreur){
+                    alert("Erreur " + erreur.status + " dans l'envoi du mail : " + erreur.data);
+                })
+
 
             }
 
