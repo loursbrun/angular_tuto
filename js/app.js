@@ -1,4 +1,4 @@
-angular.module("Webmail", [ "ngSanitize", "ui.tinymce", "MailServiceHttp", "MesFiltres", "MesDirectives" ])
+angular.module("Webmail", [ "ngSanitize", "ui.tinymce", "MailServiceRest", "MesFiltres", "MesDirectives" ])
 .controller("WebmailCtrl", function($scope, $location, $filter, mailService) {
 	
 	
