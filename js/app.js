@@ -1,6 +1,42 @@
 angular.module("Webmail", [ "ngSanitize", "ui.tinymce", "MailServiceRest", "MesFiltres", "MesDirectives" ])
-.controller("WebmailCtrl", function($scope, $location, $filter, mailService) {
-	
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push(function($q, $rootScope) {
+            var nbReqs = 0;
+
+            return {
+                request: function(config) {
+                    nbReqs++;
+                    $rootScope.chargementEnCours = true;
+                    return config;
+                },
+                // requestError: function(motifRejet) {
+                // 	return $q.reject(motifRejet);
+                // },
+                response: function(reponse) {
+                    if (--nbReqs == 0) {
+                        $rootScope.chargementEnCours = false;
+                    }
+                    return reponse;
+                },
+                responseError: function(motifRejet) {
+                    if (--nbReqs == 0) {
+                        $rootScope.chargementEnCours = false;
+                    }
+                    return $q.reject(motifRejet);
+                }
+            };
+        });
+    })
+    .controller("WebmailCtrl", function($rootScope, $scope, $location, $filter, mailService) {
+
+
+
+
+
+    // Chargement
+    $rootScope.chargementEnCours = false ;
+
+
 	
 	// tri
 
@@ -17,7 +53,7 @@ angular.module("Webmail", [ "ngSanitize", "ui.tinymce", "MailServiceRest", "MesF
 
 	$scope.cssChevronsTri = function(champ) {
 		return {
-			glyphicon: $scope.champTri == champ,
+			 glyphicon: $scope.champTri == champ,
 			'glyphicon-chevron-up' : $scope.champTri == champ && !$scope.triDescendant,
 			'glyphicon-chevron-down' : $scope.champTri == champ && $scope.triDescendant 
 		};
